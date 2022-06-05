@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-
-const iconsStyle = TextStyle(
-  fontSize: 18.0,
-  color: Color(0xFF8D8E98),
-);
+import 'constants.dart';
 
 class CustomIcon extends StatelessWidget {
   CustomIcon({this.iconType, this.iconName});
@@ -24,7 +20,7 @@ class CustomIcon extends StatelessWidget {
         ),
         Text(
           iconName!,
-          style: iconsStyle,
+          style: kTextStyle,
         ),
       ],
     );
