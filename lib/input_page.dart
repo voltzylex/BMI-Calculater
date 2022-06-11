@@ -1,4 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'result.dart';
+import 'package:bmi_calculater/result.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'icon_content.dart';
@@ -44,7 +47,7 @@ class _InputPageState extends State<InputPage> {
                           : kInactiveColor,
                       cardChild: CustomIcon(
                         iconType: FontAwesomeIcons.mars,
-                        iconName: "MALE",
+                        iconName: 'MALE',
                       ),
                     ),
                   ),
@@ -60,7 +63,7 @@ class _InputPageState extends State<InputPage> {
                           : kInactiveColor,
                       cardChild: CustomIcon(
                         iconType: FontAwesomeIcons.venus,
-                        iconName: "FEMALE",
+                        iconName: 'FEMALE',
                       ),
                     ),
                   )
@@ -77,7 +80,7 @@ class _InputPageState extends State<InputPage> {
                 children: [
                   Center(
                     child: Text(
-                      "HEIGHT",
+                      'HEIGHT',
                       style: kTextStyle,
                     ),
                   ),
@@ -90,7 +93,7 @@ class _InputPageState extends State<InputPage> {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        "cm",
+                        'cm',
                         style: kTextStyle,
                       ),
                     ],
@@ -123,26 +126,138 @@ class _InputPageState extends State<InputPage> {
               child: Row(
                 children: [
                   Expanded(
-                      child: ReusableCard(
-                    colour: kActiveColor,
-                  )),
+                    child: ReusableCard(
+                      colour: kActiveColor,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'Weight',
+                            style: kTextStyle,
+                          ),
+                          Text(
+                            kWeightValue.toString(),
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w900),
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.minus,
+                                  pressed: () {
+                                    setState(() {
+                                      kWeightValue--;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.plus,
+                                  pressed: () {
+                                    setState(() {
+                                      kWeightValue++;
+                                    });
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: ReusableCard(
                       colour: kActiveColor,
+                      cardChild: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            'AGE',
+                            style: kTextStyle,
+                          ),
+                          Text(
+                            kAgeValue.toString(),
+                            style: TextStyle(
+                                fontSize: 40, fontWeight: FontWeight.w900),
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.minus,
+                                  pressed: () {
+                                    setState(() {
+                                      kAgeValue--;
+                                    });
+                                  },
+                                ),
+                                SizedBox(width: 15),
+                                RoundIconButton(
+                                  icon: FontAwesomeIcons.plus,
+                                  pressed: () {
+                                    setState(() {
+                                      kAgeValue++;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              color: kBottomColor,
-              margin: EdgeInsets.only(top: 10.0),
-              width: double.infinity,
-              height: kBottomContainerHeight,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ResultPage()
+              ));
+              },
+              child: Container(
+                // Pink Botom Container 👇👇👇
+                color: kBottomColor,
+                margin: EdgeInsets.only(top: 10.0),
+                width: double.infinity,
+                height: kBottomContainerHeight,
+                child: Center(
+                  child: Text(
+                    'Calculate',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 2, 248, 14),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class RoundIconButton extends StatelessWidget {
+  RoundIconButton({this.icon, this.pressed});
+  final IconData? icon;
+  final VoidCallback? pressed;
+  @override
+  Widget build(BuildContext context) {
+    return RawMaterialButton(
+      onPressed: pressed,
+      child: Icon(icon),
+      elevation: 6.0,
+      constraints: BoxConstraints.tightFor(width: 56.0, height: 56.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      fillColor: kFloatingIconColor,
     );
   }
 }
