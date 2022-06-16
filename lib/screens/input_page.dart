@@ -1,12 +1,15 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'result.dart';
-import 'package:bmi_calculater/result.dart';
+
+import 'package:bmi_calculater/components/constants.dart';
+import 'package:bmi_calculater/screens/result.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import 'icon_content.dart';
-import 'reusable_card.dart';
-import 'constants.dart';
+
+import '../components/icon_content.dart';
+import '../components/reusable_card.dart';
+import '../components/round_icon_button.dart';
+
 
 // Using Enums
 enum Gender { male, female }
@@ -216,27 +219,11 @@ class _InputPageState extends State<InputPage> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ResultPage()
-              ));
-              },
-              child: Container(
-                // Pink Botom Container 👇👇👇
-                color: kBottomColor,
-                margin: EdgeInsets.only(top: 10.0),
-                width: double.infinity,
-                height: kBottomContainerHeight,
-                child: Center(
-                  child: Text(
-                    'Calculate',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 2, 248, 14),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                ),
-              ),
+            BelowButton(
+              value: 'Calculate',onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ResultPage()));
+      },
             ),
           ],
         ),
@@ -245,19 +232,32 @@ class _InputPageState extends State<InputPage> {
   }
 }
 
-class RoundIconButton extends StatelessWidget {
-  RoundIconButton({this.icon, this.pressed});
-  final IconData? icon;
-  final VoidCallback? pressed;
+class BelowButton extends StatelessWidget {
+  BelowButton({Key? key, @required this.value,@required this.onTap}) : super(key: key);
+  final String? value;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context) {
-    return RawMaterialButton(
-      onPressed: pressed,
-      child: Icon(icon),
-      elevation: 6.0,
-      constraints: BoxConstraints.tightFor(width: 56.0, height: 56.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      fillColor: kFloatingIconColor,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        // Pink Botom Container 👇👇👇
+        color: kBottomColor,
+        margin: EdgeInsets.only(top: 10.0),
+        width: double.infinity,
+        height: kBottomContainerHeight,
+        child: Center(
+          child: Text(
+            '$value',
+            style: TextStyle(
+                color: Color.fromARGB(255, 2, 248, 14),
+                fontWeight: FontWeight.bold,
+                fontSize: 20),
+          ),
+        ),
+      ),
     );
   }
 }
+
+
