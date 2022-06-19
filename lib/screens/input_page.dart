@@ -1,15 +1,14 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
+import 'package:bmi_calculater/calculater_Brain.dart';
 import 'package:bmi_calculater/components/constants.dart';
 import 'package:bmi_calculater/screens/result.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-
+import '../components/bottom_button.dart';
 import '../components/icon_content.dart';
 import '../components/reusable_card.dart';
 import '../components/round_icon_button.dart';
-
 
 // Using Enums
 enum Gender { male, female }
@@ -220,10 +219,19 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
             BelowButton(
-              value: 'Calculate',onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ResultPage()));
-      },
+              value: 'Calculate',
+              onTap: () {
+                CalculaterBrain calc =
+                    CalculaterBrain(height: kHeightValue, weight: kWeightValue);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ResultPage(
+                              bmiResult: calc.calculateBMI(),
+                              bmiText: calc.getResult(),
+                              bmiInterpretation: calc.intepretation(),
+                            )));
+              },
             ),
           ],
         ),
@@ -231,33 +239,3 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
-
-class BelowButton extends StatelessWidget {
-  BelowButton({Key? key, @required this.value,@required this.onTap}) : super(key: key);
-  final String? value;
-  final VoidCallback? onTap;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        // Pink Botom Container 👇👇👇
-        color: kBottomColor,
-        margin: EdgeInsets.only(top: 10.0),
-        width: double.infinity,
-        height: kBottomContainerHeight,
-        child: Center(
-          child: Text(
-            '$value',
-            style: TextStyle(
-                color: Color.fromARGB(255, 2, 248, 14),
-                fontWeight: FontWeight.bold,
-                fontSize: 20),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
